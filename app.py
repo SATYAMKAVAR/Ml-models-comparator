@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from flask import Flask, request, render_template
-from sklearn.model_selection import KFold, train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, AdaBoostClassifier
@@ -11,7 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score, 
+    accuracy_score, precision_score, recall_score, f1_score,
     mean_absolute_error, mean_squared_error, r2_score
 )
 
@@ -116,7 +116,16 @@ def analyze():
             metrics = evaluate_classification_model(best_model, X, y) if is_classification else evaluate_regression_model(best_model, X, y)
             results.append({'model': model_name, **metrics})
         
-        return render_template('results.html', results=results)
+        # Sort results by accuracy for classification or by R2 Score for regression
+        if is_classification:
+            results.sort(key=lambda x: x['accuracy'], reverse=True)
+        else:
+            results.sort(key=lambda x: x['R2 Score'], reverse=True)
+        
+        # Extract the best-performing model
+        best_model = results[0] if results else None
+
+        return render_template('results.html', results=results, best_model=best_model)
     else:
         return "Invalid file type. Only CSV files are allowed!"
 

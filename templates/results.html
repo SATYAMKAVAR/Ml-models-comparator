@@ -1,27 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performance Results</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 960px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .best-model {
+            background-color: #3498db;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .best-model p {
+            margin: 5px 0;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2980b9;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        td {
+            background-color: #f7f9fc;
+            color: #333;
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #ecf0f1;
+        }
+
+        /* Hover Effects */
+        tr:hover {
+            background-color: #d5dbdb;
+        }
+
+        /* Border Styling */
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .best-model {
+                font-size: 18px;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+
+        /* Button Styling */
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background-color: #2980b9;
+            color: #fff;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #1f618d;
+        }
+
+    </style>
 </head>
 <body>
-    <h2>Model Performance</h2>
-    <table border="1">
-        <tr>
-            <th>Model</th>
-            <th>Accuracy</th>
-            <th>Precision</th>
-            <th>Recall</th>
-            <th>F1 Score</th>
-        </tr>
-        {% for result in results %}
-        <tr>
-            <td>{{ result.model }}</td>
-            <td>{{ result.accuracy }}%</td>
-            <td>{{ result.precision }}%</td>
-            <td>{{ result.recall }}%</td>
-            <td>{{ result.f1_score }}%</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container">
+        <!-- Best Performing Algorithm Display -->
+        <div class="best-model">
+            <h2>Best Performing Algorithm</h2>
+            <p><strong>Model:</strong> {{ best_model.model }}</p>
+            <p><strong>Accuracy:</strong> {{ best_model.accuracy }}%</p>
+            <p><strong>Precision:</strong> {{ best_model.precision }}%</p>
+            <p><strong>Recall:</strong> {{ best_model.recall }}%</p>
+            <p><strong>F1 Score:</strong> {{ best_model.f1_score }}%</p>
+        </div>
+
+        <!-- Model Performance Table -->
+        <h2>All Model Performance</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1 Score</th>
+            </tr>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.model }}</td>
+                <td>{{ result.accuracy }}%</td>
+                <td>{{ result.precision }}%</td>
+                <td>{{ result.recall }}%</td>
+                <td>{{ result.f1_score }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Back Button -->
+        <a href="/" class="back-btn">Back to Home</a>
+    </div>
 </body>
 </html>

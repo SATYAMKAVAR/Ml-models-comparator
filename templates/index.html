@@ -1,13 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ML Model Analyzer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .file-input-container {
+            background-color: #eef2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .file-input-container input[type="file"] {
+            display: none;
+        }
+
+        .file-input-label {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .file-input-label:hover {
+            background-color: #45a049;
+        }
+
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Upload a CSV file</h2>
-    <form action="/analyze" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Analyze">
-    </form>
+    <div class="container">
+        <h2>Upload a CSV file for Analysis</h2>
+        <form action="/analyze" method="post" enctype="multipart/form-data" id="uploadForm">
+            <div class="file-input-container">
+                <label for="file-input" class="file-input-label">Choose a CSV File</label>
+                <input type="file" name="file" id="file-input" accept=".csv" onchange="updateFileName()">
+                <p id="file-name" class="file-name">No file selected</p>
+            </div>
+            <input type="submit" class="submit-btn" value="Analyze">
+        </form>
+    </div>
+
+    <script>
+        // Function to dynamically update the file name
+        function updateFileName() {
+            const fileInput = document.getElementById('file-input');
+            const fileName = document.getElementById('file-name');
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+            } else {
+                fileName.textContent = 'No file selected';
+            }
+        }
+
+        // Ensure that the form is correctly handled on submission
+        document.getElementById("uploadForm").onsubmit = function (event) {
+            const fileInput = document.getElementById("file-input");
+            if (fileInput.files.length === 0) {
+                event.preventDefault();  // Prevent form submission
+                alert("Please select a CSV file to upload.");
+            }
+        }
+    </script>
 </body>
 </html>
